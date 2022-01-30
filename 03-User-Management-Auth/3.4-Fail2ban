@@ -1,0 +1,52 @@
+# Bloqueio de contas automaticamente após tentativas de login com falhas utilizando fail2ban
+
+O fail2ban verifica arquivos de log em busca de tentativas de força bruta em tempo real, caso identificado bloqueia o ip de acesso.
+Este bloqueio é definido no arquivo de configuração do fail2ban, que especifica o tempo de bloqueio.
+
+Instalação fail2ban:
+```
+$ sudo apt install fail2ban 
+$ sudo yum install fail2ban fail2ban-systemd
+```
+
+Arquivo de configuração é /etc/fail2ban/jail.conf
+Para editar o arquivo é recomendado realizar uma cópia:
+```
+$ sudo cp -pfv /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+```
+
+Opções relevante do arquivo de configuração /etc/fail2ban/jail.local
+
+ignoreip: Usado para definir a lista de IPs que não serão banidos.
+bantime: Tempo de banimento em segundos
+findtime: Válida se o host é banido ou não. Quando o host gera maxretry em seu último findtime, será banido.
+maxretry: Estabele o limite para o número de novas tentativas de um host. Ao exceder esse limite, o host é banido.
+
+Criando uma jaula para proteger o SSH:
+Com o seguinte arquivo: /etc/fail2ban/jail.d/sshd.local
+```
+[sshd]
+enabled = true
+port = ssh
+# action = firewallcmd-ipset
+caminho de log = $(sshd_log)s
+maxretry = 5
+bantime = 86400
+```
+
+Habilitando firewall e fail2ban:
+```
+$ sudo systemctl enable firewalld
+$ sudo systemctl start firewalld
+$ sudo systemctl enable fail2ban
+$ sudo systemctl start fail2ban
+```
+Verificando o status do fail2ban e possíveis bloqueios:
+```
+sudo fail2ban-client status
+```
+
+Desbanindo um IP:
+```
+$ sudo fail2ban-client set sshd unbanip 192.168.0.1
+```

@@ -1,0 +1,19 @@
+# Entendendo a estrutura do Kerberos
+
+Kerberos é um protocolo de autenticação que utiliza o SSO.
+
+As interações iniciais do kerberos são as seguintes:
+- O usuário começa enviando o hash de sua chave para o Authentication Service.
+- O Authetication Service gera o Bilhete-Concessão-ticket com a Hash do Usuário.
+- O Authentication Service envia para o usuário o Bilhete-Concessão-Ticket (TGT) com a Chave de Sessão Client do Ticket Grant Service(TGS).
+- O usuário envia para o Ticket Grant Service (TGS) o Bilhete-Concessão-Ticket (TGT) com a Chave de Sessão Client.
+- O Ticket Grant Service (TGS) gera um ticket do cliente para o serviço destino utilizando a Chave de Sessão Client do TGS.
+- O Ticket Grant Service (TGS) envia para o usuário o Ticket do Client para o serviço destino com a Chave de Sessão Cliente/Servidor.
+- O usuário envia para o serviço destino o Ticket do Client com a Chave de Sessão Client/Servidor.
+
+O serviço destino não se comunica diretamente com o Authetication Service ou usuário, sempre ocorre um intermédio nas requisições.
+Todas as operações são registradas com data e hora, de forma que ficam registradas nos logs.
+
+O kerberos utiliza criptografia de chave assimétrica.
+
+

@@ -1,0 +1,60 @@
+# Configurando PAM e NSS
+
+### System Security Services Daemon - SSSD
+Intermediário entre clientes locais e clientes remotos.
+Fornece acesso a diversos provedores de identidade e autenticação. Incluindo AD, LDAP e PAM.
+Reduzindo a carga em servidores de autenticação.
+Possui cache para consulta, possibilitando a identificação e autênticação de usuários mesmo se o servidor de autenticação remoto estiver indisponível.
+
+O arquivo de configuração default é: /etc/sssd/sssd.conf
+No entanto é possível passar outro arquivo em um path diferente com o seguinte comando:
+```
+$ sssd -c /path/novo_arquivo
+# Necessário reiniciar o sssd após aplicar nova configuração
+$ systemctl restart sssd.service
+```
+
+Configura automaticamente os módulos do PAM e nsswitch.conf para utilizar o sssd como provedor:
+```
+$ authconfig --enablesssd --enablessdauth --update
+```
+
+Exemplo de arquivo de configuração do sssd com pam e nss:
+```sh
+[sssd]
+services = nss, pam
+domains = shadowutils
+
+# config nss
+[nss]
+filter_groups = root
+filter_users = root
+reconnection_retries = 3
+entry_cache_timtout = 300
+entry_cache_nowait_percentage = 75
+
+[pam]
+reconnection_retries = 3
+offline_credentials_expiration = 2
+offline_failed_login_attempts = 3
+offline_failed_login_delay = 5
+
+[domain/shadowutils]
+id_provider = files
+
+auth_provider = proxy
+proxy_pam_target = sssd-shadowutils
+
+proxy_fast_alias = true
+```
+
+Comandos úteis do sssd:
+```
+# Verifica se o usuário esta no cache
+sss_cache -u usuario
+# Adicione o grupo ao cache
+sss_groupadd
+# Remove o grupo do cache
+sss_groupdel
+```
+
