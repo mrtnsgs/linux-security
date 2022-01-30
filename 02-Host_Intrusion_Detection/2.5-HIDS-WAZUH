@@ -1,0 +1,56 @@
+# HIDS WAZUH
+
+Dividido entre Server e Agent o HIDS Wazuh centraliza análises e informações de segurança sobre eventos alterações em dispositivos.
+É é junção de três stacks de observabilidade e segurança: 
+
+* OSSEC:
+- Log Analysis
+- File Integrity monitoring
+- Intrusion Detection
+- Active Response 
+
+* OpenScanp:
+- Policy Monitoring
+- Security Compliance
+- Vulnerability Assessment
+- System Hardening
+
+* Elastic Stack:
+- Search Engine
+- Storage
+- Analytics
+- Visualization
+
+### Wazuh Server
+Recebe os dados coletados pelos agents e envia alertas configurados
+
+Instalando o Wazuh server:
+- [Guia de instalação] (https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-linux.html)
+
+### Wazuh Agent
+Multiplataforma (windows, linux, macos...), reaiza e envia suas coletas para o server.
+
+Instalando Wazuh Agent:
+- [Guia de instalação] (https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-linux.html)
+
+```sh
+#!/bin/bash
+# Script para instalar o wazuh agent 
+
+sudo apt install curl apt-transport-https lsb_release
+sudo curl -s https://packages.wazuh.com/GPG/GPG-KEY-WAZUH | apt-key add -
+sudo echo "deb https://packages.wazuh.com/3.x/apt/ stable main" | tee /etc/apt/sources.list.d/wazuh.list
+
+sudo apt-get update
+sudo apt-get install wazuh-agent
+```
+
+Necessário configurar o MANAGER_IP no ossec.conf no diretório criado via chroot para o ossec.
+
+Adicionando agents (Executar no Wazuh Server tendo a key do agent desejado):
+```
+$ /var/ossec/bin/manage_agents
+$ /var/ossec/bin/ossec_control restart
+
+```
+

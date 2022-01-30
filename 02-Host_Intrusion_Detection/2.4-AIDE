@@ -1,0 +1,25 @@
+# Configurando e usando o AIDE, incluindo o gerenciamento de regras
+O Advanced Intrusion Detection Environment constitui um sistema de intrusão, realiza checagens na integridade dos arquivos do SO. Registra em uma base de dados, qualquer mudança ocorrida no sistema.
+
+Arquivo de configuração:
+/etc/aide.conf
+
+Arquivo de regras:
+/etc/default/aide
+
+Para iniciar o banco de dados do AIDE:
+```
+$ sudo aide --init
+```
+Após a inicialização da base é criado um arquivo similar a /var/lib/aide/aide.db.new.gz, sendo necessário renomear removendo o 'new', deixando como /var/lib/aide/aide.db.gz
+
+Para executar uma checagem:
+```
+$ sudo aide --check
+```
+
+Update database:
+```
+$ sudo aide --update
+```
+
