@@ -1,0 +1,45 @@
+# Trabalhando com ambientes chroot
+
+O chroot cria uma nova árvore de arquivos isolados do resto do sistema.
+
+### Criando um ambiente enjaulado com chroot
+'''
+# Criando um diretório raiz que será isolado como uma nova árvore de arquivos do linux
+$ mkdir /jaulabash
+
+# Criando diretórios necessários
+$ mkdir /jaulabas/{bin,etc}
+
+# Listando as bibliotecas utilizadas pelos binários necessários
+$ ldd /bin/bash /bin/ls
+ 
+# Criando os diretórios das libs necessárias
+$ mkdir -p /jaulabash/{lib64,lib/x86_64-linux-gnu}
+
+# Copiando as bibliotecas necessárias para o binário /bin/bash
+$ for i in $(ldd /bin/bash | grep '=>' | awk -F'=>' '{print $2}' | cut -d' ' -f2); do cp $i /jaulabash/lib/x86_64-linux-gnu/ ; done
+
+# Copiando as bibliotecas necessárias para o binário /bin/ls
+$ for i in $(ldd /bin/ls | grep '=>' | awk -F'=>' '{print $2}' | cut -d' ' -f2); do cp $i /jaulabash/lib/x86_64-linux-gnu/ ; done
+
+# Copiando o arquivo em /lib64 compartilhado entre os dois binários
+$ cp /lib64/ld-linux-x86-64.so.2 /jaulabash/lib64
+
+# Visualizando a estrutura criada
+$ tree -d /jaulabash/
+
+#  Adicionando os binários necessários
+$ cp /bin/bash /jaulabash/bin && cp /bin/ls /jaulabash
+
+# Personalizando a variável de ambiente $PS1
+$ echo "'PS1=JAULA $ '" | tee /jaulabash/etc/bash.basrc
+
+# Executando o chroot
+$ chroot /jaulabash /bin/bash
+
+'''
+
+Ja dentro do chroot é possível executar os dois binários /bin/bash e /bin/ls
+'''
+$ ls -R
+'''
