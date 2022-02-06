@@ -1,6 +1,6 @@
 # Performance na conexão
 
-É possível aumentar o número de workder do processo master do nginx.
+É possível aumentar o número de workers do processo master do nginx.
 Recomenda-se utilizar um worker para cada cpu presente no servidor.
 
 Alterar para auto no nginx.conf faz com que o nginx crie o número de workers de acordo com o número de cpus:
