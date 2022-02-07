@@ -1,16 +1,16 @@
 # AppArmor
-
-Bloqueia processos vulneráveis restringindo a vulnerabilidade de segurança contidas nesses processos para que as mesmas não tenham poder de execução.
+<p>
+Bloqueia processos vulneráveis restringindo a vulnerabilidade de segurança contidas nesses processos para que as mesmas não tenham poder de execução.<br />
 Semelhante ao SELinux, no entanto contém suas peculiaridades.
 
-Os perfis são armazenados no /etc/apparmor.d/ 
+Os perfis são armazenados no /etc/apparmor.d/ <br />
 Geralmente a nomeclatura segueo o padrão usr.bin.man, que seria de acordo com o path do binário.
 
 Perfis do AppArmor
 
-Enforced:
+Enforced:<br />
 Complain: Modo de reclamação. Os serviços carregados neste modo não são bloqueados, apenas são registrados logs.
-
+</p>
 ```bash
 # Exibindo status do AppArmor
 $ apparmor_status
@@ -22,4 +22,3 @@ $ aa-genprof /usr/bin/lynx
 # Verificando o log dos perfis
 $ aa-logprof
 ```
-
