@@ -1,7 +1,7 @@
 #### Linux Security
 
-Este repositorio possui materiais referemtes a seguranca em servidores linux.
-Dividido nas seguintes sessoes:
+Este repositório possui materiais referentes a segurança em servidores linux.
+Dividido nas seguintes sessões:
 
 - [01-Host_hardening](01-Host_hardening)
 - [02-Host_Intrusion_Detection](02-Host_Intrusion_Detection)
@@ -17,4 +17,5 @@ Dividido nas seguintes sessoes:
 - [12-DNS_Cryptography](12-DNS_Cryptography)
 - [13-Services](13-Services)
 - [Nginx](nginx)
+- [hashicorp-vault](hashicorp-vault)
 - [SELinux](SELinux)
